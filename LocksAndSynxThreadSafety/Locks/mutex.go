@@ -33,6 +33,7 @@ func (sc *safeCounter) Decrement() {
 }
 
 func (sc *safeCounter) GetValue() int {
+	// Lock will block any goRoutines trying to access this
 	sc.Lock()
 	v := sc.i
 	sc.Unlock()
