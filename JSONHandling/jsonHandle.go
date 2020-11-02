@@ -57,6 +57,13 @@ func main() {
 	fmt.Println(string(bm))
 
 	printCrewMembers(cm)
+	fmt.Println("\n UnMarshal ShipInfo")
+	unmarshallShip()
+	fmt.Println("\n UnMarshal map")
+	unMarshalMap()
+
+	fmt.Println("\n Unmarshal crew members")
+	unMarshalArrayCrewMembers()
 }
 
 func printCrewMembers(crewMember CrewMember) {
@@ -67,4 +74,28 @@ func printCrewMembers(crewMember CrewMember) {
 		fmt.Println("Error: ", err)
 	}
 	fmt.Println(string(bSlice))
+}
+
+func unmarshallShip() {
+	sbyte := []byte(`{"ShipId":1,"ShipClass":"Fighter","Captain":{"name":"Jaro","clearancelevel":10,"accessCodes":["ADA","LAL"]}}`)
+	shipInfo := new(ShipInfo)
+	json.Unmarshal(sbyte, shipInfo)
+	fmt.Println(shipInfo.ShipId, shipInfo.ShipClass, shipInfo.Captain.Name)
+	// Prints
+	// 1 Fighter Jaro
+}
+func unMarshalMap() {
+
+	m := make(map[int]string)
+	data := []byte(`{"1": "item1", "2": "item2"}`)
+	json.Unmarshal(data, &m)
+	fmt.Println(m)
+
+}
+
+func unMarshalArrayCrewMembers() {
+	data := []byte(`[{"id":1,"name":"Jaro","clearancelevel":10,"accessCodes":["ADA","LAL"]},{"id":2,"name":"Jim","clearancelevel":5,"accessCodes":["TLT","RAR"]}]`)
+	s := []CrewMember{}
+	json.Unmarshal(data, &s)
+	fmt.Println(s)
 }
